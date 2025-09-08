@@ -3,11 +3,21 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
+import os
+import gdown
+import tensorflow as tf
 
-# Load model
-@st.cache_resource
+MODEL_PATH = "best_model.h5"
+DRIVE_FILE_ID = "1AbCdEfGhIjKlMnOpQrStUvWxYz"  # ganti dengan ID model kamu
+URL = f"https://drive.google.com/uc?id={DRIVE_FILE_ID}"
+
 def load_model():
-    model = tf.keras.models.load_model("best_model.h5")
+    # download kalau file model belum ada
+    if not os.path.exists(MODEL_PATH):
+        print("Downloading model from Google Drive...")
+        gdown.download(URL, MODEL_PATH, quiet=False)
+
+    model = tf.keras.models.load_model(MODEL_PATH)
     return model
 
 model = load_model()
